@@ -82,12 +82,18 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class), 0);
 
+        Intent doneIntent = new Intent(this, doneIntent.class);
+        Bundle extras = doneIntent.getExtras();
+        extras.putString("uid", uid);
+        PendingIntent pendingIntentDone = PendingIntent.getBroadcast(this, 0, doneIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(source + (context.length() != 0 ? " (" + context + ")" : ""))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(text))
+                        .addAction(android.R.drawable.checkbox_on_background, "Done", pendingIntentDone)
                         .setContentText(text);
 
         mBuilder.setContentIntent(contentIntent);
