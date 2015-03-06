@@ -9,7 +9,6 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
@@ -35,7 +34,7 @@ import javax.net.ssl.TrustManagerFactory;
 /**
  * Created by rasse on 3/6/15.
  */
-public class doHttpPost {
+public class DoHttpPost {
     public void execute(final String method, final JSONObject obj) {
         final String TAG = "nodifier";
         new AsyncTask<Void, Void, Boolean>() {

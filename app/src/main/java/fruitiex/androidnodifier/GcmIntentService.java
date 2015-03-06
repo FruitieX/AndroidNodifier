@@ -6,10 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -82,7 +80,7 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class), 0);
 
-        Intent doneIntent = new Intent(this, doneService.class);
+        Intent doneIntent = new Intent(this, DoneIntentService.class);
         doneIntent.putExtra("uid", uid);
         Log.i(TAG, "storing uid " + uid);
         PendingIntent pendingIntentDone = PendingIntent.getService(this, uid.hashCode(), doneIntent, 0);

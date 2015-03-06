@@ -1,20 +1,12 @@
 package fruitiex.androidnodifier;
 
 import android.app.Activity;
-import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +47,7 @@ public class MainActivity extends Activity {
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("key", "value");
-                    new doHttpPost().execute("broadcast", obj);
+                    new DoHttpPost().execute("broadcast", obj);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -230,7 +222,7 @@ public class MainActivity extends Activity {
         JSONObject obj = new JSONObject();
         try {
             obj.put("gcmRegistrationId", regid);
-            new doHttpPost().execute("broadcast", obj);
+            new DoHttpPost().execute("broadcast", obj);
         } catch (JSONException e) {
             e.printStackTrace();
         }
