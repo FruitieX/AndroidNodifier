@@ -3,20 +3,20 @@ package fruitiex.androidnodifier;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -36,11 +36,11 @@ import javax.net.ssl.TrustManagerFactory;
  * Created by rasse on 3/6/15.
  */
 public class doHttpPost {
-    public void execute(String method, String id, String uid) {
+    public void execute(final String method, final JSONObject obj) {
         final String TAG = "nodifier";
-        new AsyncTask<String, Void, Boolean>() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            protected Boolean doInBackground(String... params) {
+            protected Boolean doInBackground(Void... params) {
                 try {
                     // open client certificate file
                     File dir = Environment.getExternalStorageDirectory();
@@ -81,9 +81,12 @@ public class doHttpPost {
 
                     DefaultHttpClient httpClient = new DefaultHttpClient();
                     ClientConnectionManager manager = httpClient.getConnectionManager();
-                    manager.getSchemeRegistry().register(new Scheme("https", factory, 443));
+                    manager.getSchemeRegistry().register(new Scheme("https", factory, 5678));
 
-                    HttpPost post = new HttpPost("http://fruitiex.org:5678/?foo=bar");
+                    HttpPost post = new HttpPost("https://fruitiex.org:5678/?method=" + method);
+                    post.setEntity(new ByteArrayEntity(
+                            obj.toString().getBytes("UTF8")));
+                    post.setHeader("Content-Type", "application/json");
 
                     httpClient.execute(post);
 
@@ -113,6 +116,6 @@ public class doHttpPost {
             protected void onPostExecute(Boolean status) {
                 Log.i(TAG, "HTTP request finished with status: " + status);
             }
-        }.execute(method, id, uid);
+        }.execute();
     }
 }

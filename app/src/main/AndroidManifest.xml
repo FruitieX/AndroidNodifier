@@ -35,6 +35,10 @@
             </intent-filter>
         </receiver>
         <service android:name=".GcmIntentService" />
+        <activity
+            android:label="Done Intent"
+            android:name=".doneIntent" >
+        </activity>
     </application>
 
 </manifest>

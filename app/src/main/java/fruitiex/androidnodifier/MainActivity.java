@@ -26,6 +26,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 
@@ -49,7 +52,13 @@ public class MainActivity extends Activity {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new doHttpPost().execute(null, null, null);
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("key", "value");
+                    new doHttpPost().execute("broadcast", obj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -218,8 +227,13 @@ public class MainActivity extends Activity {
      */
     private void sendRegistrationIdToBackend() {
         Log.i(TAG, "registration id is: " + regid);
-
-
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("gcmRegistrationId", regid);
+            new doHttpPost().execute("broadcast", obj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
