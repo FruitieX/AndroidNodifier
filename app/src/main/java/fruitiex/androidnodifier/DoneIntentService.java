@@ -19,7 +19,6 @@ public class DoneIntentService extends IntentService {
 
         Log.i("nodifier", "doneIntent() tapped, using uid " + uid);
 
-
         // dismiss notification
         NotificationManager manager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(uid.hashCode());

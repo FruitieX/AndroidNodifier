@@ -38,33 +38,36 @@ public class GcmIntentService extends IntentService {
              * recognize.
              */
             if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-                //sendNotification("Send error: " + extras.toString());
-            } else if (GoogleCloudMessaging.
-                    MESSAGE_TYPE_DELETED.equals(messageType)) {
-                //sendNotification("Deleted messages on server: " +
-                        //extras.toString());
-                // If it's a regular GCM message, do some work.
-            } else if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                // This loop represents the service doing some work.
-                /*
-                for (int i=0; i<5; i++) {
-                    Log.i(TAG, "Working... " + (i + 1)
-                            + "/5 @ " + SystemClock.elapsedRealtime());
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                    }
-                }
-                */
-                //Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
-                String source = extras.getString("source", "Nodifier");
-                String context = extras.getString("context", "");
-                String text = extras.getString("text", "");
-                String uid = extras.getString("uid", "");
-                sendNotification(source, context, text, uid);
+                String method = extras.getString("method", null);
+                if(method == null) {
+                    return;
+                }
+
+                if(method.equals("newNotification")) {
+                    String source = extras.getString("source", "Nodifier");
+                    String context = extras.getString("context", "");
+                    String text = extras.getString("text", "");
+                    String uid = extras.getString("uid", "");
+                    sendNotification(source, context, text, uid);
+                } else if(method.equals("markAs")) {
+                    String read = extras.getString("read", "true");
+                    String uid = extras.getString("uid", "");
+                    if(read.equals("false")) {
+                        // marking as unread is same as creating new notification
+                        String source = extras.getString("source", "Nodifier");
+                        String context = extras.getString("context", "");
+                        String text = extras.getString("text", "");
+                        sendNotification(source, context, text, uid);
+                    } else {
+                        // dismiss notification if it was marked as read
+                        NotificationManager manager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        manager.cancel(uid.hashCode());
+                    }
+                } else {
+                    Log.e(TAG, "unknown notification method");
+                }
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
