@@ -1,6 +1,7 @@
 package fruitiex.androidnodifier;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -87,6 +88,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
+                        .setDefaults(Notification.DEFAULT_ALL)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(source + (context.length() != 0 ? " (" + context + ")" : ""))
                         .setStyle(new NotificationCompat.BigTextStyle()
