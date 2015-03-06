@@ -1,8 +1,10 @@
 package fruitiex.androidnodifier;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -11,12 +13,9 @@ import org.json.JSONObject;
 /**
  * Created by rasse on 3/5/15.
  */
-public class doneIntent extends Activity {
+public class doneService extends Service {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Intent intent = this.getIntent();
+    public int onStartCommand(Intent intent, int flags, int startId) {
         String uid = intent.getStringExtra("uid");
 
         Log.i("nodifier", "doneIntent() tapped, using uid " + uid);
@@ -28,5 +27,12 @@ public class doneIntent extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

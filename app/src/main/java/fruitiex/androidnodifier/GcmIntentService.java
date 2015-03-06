@@ -82,10 +82,10 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class), 0);
 
-        Intent doneIntent = new Intent(this, doneIntent.class);
+        Intent doneIntent = new Intent(this, doneService.class);
         doneIntent.putExtra("uid", uid);
         Log.i(TAG, "storing uid " + uid);
-        PendingIntent pendingIntentDone = PendingIntent.getBroadcast(this, 0, doneIntent, 0);
+        PendingIntent pendingIntentDone = PendingIntent.getService(this, uid.hashCode(), doneIntent, 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
