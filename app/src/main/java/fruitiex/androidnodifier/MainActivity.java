@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
 
 public class MainActivity extends Activity {
     static final String TAG = "nodifier";
@@ -40,20 +37,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button testButton = (Button) findViewById(R.id.test);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("key", "value");
-                    new DoHttpPost().execute("broadcast", obj);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
             regid = getRegistrationId(getBaseContext());
@@ -67,8 +50,6 @@ public class MainActivity extends Activity {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
     }
-
-
 
     @Override
     protected void onResume() {

@@ -31,9 +31,6 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-/**
- * Created by rasse on 3/6/15.
- */
 public class DoHttpPost {
     public void execute(final String method, final JSONObject obj) {
         final String TAG = "nodifier";
